@@ -1,7 +1,7 @@
 package com.maersk.gamification.game.controller;
 
 
-import com.maersk.gamification.challenge.domain.ChallengeSolvedDTO;
+import com.maersk.gamification.challenge.domain.ChallengeSolvedEvent;
 import com.maersk.gamification.game.service.GameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,7 @@ public class GameController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    void postResult(@RequestBody ChallengeSolvedDTO dto) {
+    void postResult(@RequestBody ChallengeSolvedEvent dto) {
         gameService.newAttemptForUser(dto);
     }
 }

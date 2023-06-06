@@ -3,6 +3,7 @@ package com.maersk.multiplication.challenge.service;
 
 import com.maersk.multiplication.challenge.domain.ChallengeAttempt;
 import com.maersk.multiplication.challenge.domain.ChallengeAttemptDTO;
+import com.maersk.multiplication.challenge.publisher.ChallengeEventPub;
 import com.maersk.multiplication.challenge.repository.ChallengeAttemptRepository;
 import com.maersk.multiplication.challenge.serviceclients.GamificationServiceClient;
 import com.maersk.multiplication.user.domain.User;
@@ -21,7 +22,8 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     private final UserRepository userRepository;
     private final ChallengeAttemptRepository challengeAttemptRepository;
-    private final GamificationServiceClient gamificationServiceClient;
+//    private final GamificationServiceClient gamificationServiceClient;
+    private final ChallengeEventPub challengeEventPub;
 
     @Override
     public ChallengeAttempt verifyAttempt(ChallengeAttemptDTO resultAttempt) {
@@ -47,8 +49,11 @@ public class ChallengeServiceImpl implements ChallengeService {
         ChallengeAttempt storedAttempt = challengeAttemptRepository.save(challengeAttempt);
 
         // Sends the attempt to gamification and prints the response
-        boolean status = gamificationServiceClient.sendAttempt(storedAttempt);
-        log.info("Gamification service response: {}", status);
+//        boolean status = gamificationServiceClient.sendAttempt(storedAttempt);
+//        log.info("Gamification service response: {}", status);
+
+        // Publishes an event to notify potentially interested subscribers
+        challengeEventPub.challengeSolved(storedAttempt);
 
         return storedAttempt;
     }

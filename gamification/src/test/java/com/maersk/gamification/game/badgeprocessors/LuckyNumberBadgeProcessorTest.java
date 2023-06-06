@@ -1,6 +1,6 @@
 package com.maersk.gamification.game.badgeprocessors;
 
-import com.maersk.gamification.challenge.domain.ChallengeSolvedDTO;
+import com.maersk.gamification.challenge.domain.ChallengeSolvedEvent;
 import com.maersk.gamification.game.domain.BadgeType;
 import com.maersk.gamification.game.domain.ScoreCard;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +23,7 @@ class LuckyNumberBadgeProcessorTest {
     @Test
     public void shouldGiveBadgeIfScoreOverThreshold() {
         Optional<BadgeType> badgeType = badgeProcessor.processForOptionalBadge(10,
-                List.of(new ScoreCard(1L, 1L)), new ChallengeSolvedDTO(1L, true,
+                List.of(new ScoreCard(1L, 1L)), new ChallengeSolvedEvent(1L, true,
                         42,10, 1L, "Hariharan"));
         assertThat(badgeType).contains(BadgeType.LUCKY_NUMBER);
     }
@@ -31,7 +31,7 @@ class LuckyNumberBadgeProcessorTest {
     @Test
     public void shouldNotGiveBadgeIfScoreOverThreshold() {
         Optional<BadgeType> badgeType = badgeProcessor.processForOptionalBadge(10,
-                List.of(new ScoreCard(1L, 1L)), new ChallengeSolvedDTO(1L, true,
+                List.of(new ScoreCard(1L, 1L)), new ChallengeSolvedEvent(1L, true,
                         43,10, 1L, "Hariharan"));
         assertThat(badgeType).isEmpty();
     }

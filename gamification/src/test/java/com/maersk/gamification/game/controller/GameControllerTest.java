@@ -1,6 +1,6 @@
 package com.maersk.gamification.game.controller;
 
-import com.maersk.gamification.challenge.domain.ChallengeSolvedDTO;
+import com.maersk.gamification.challenge.domain.ChallengeSolvedEvent;
 import com.maersk.gamification.game.service.GameService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,13 +32,13 @@ class GameControllerTest {
     private MockMvc mvc;
 
     @Autowired
-    private JacksonTester<ChallengeSolvedDTO> jsonRequestAttempt;
+    private JacksonTester<ChallengeSolvedEvent> jsonRequestAttempt;
 
     @Test
     void newAttemptReceivedTest() throws Exception {
         // given
-        ChallengeSolvedDTO solvedDTO =
-                new ChallengeSolvedDTO( 1L, true,
+        ChallengeSolvedEvent solvedDTO =
+                new ChallengeSolvedEvent( 1L, true,
                         20, 20, 1L, "Hariharan");
         when(gameService.newAttemptForUser(solvedDTO)).thenReturn(any());
 

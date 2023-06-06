@@ -2,8 +2,8 @@ package com.maersk.multiplication.challenge.service;
 
 import com.maersk.multiplication.challenge.domain.ChallengeAttempt;
 import com.maersk.multiplication.challenge.domain.ChallengeAttemptDTO;
+import com.maersk.multiplication.challenge.publisher.ChallengeEventPub;
 import com.maersk.multiplication.challenge.repository.ChallengeAttemptRepository;
-import com.maersk.multiplication.challenge.serviceclients.GamificationServiceClient;
 import com.maersk.multiplication.user.domain.User;
 import com.maersk.multiplication.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,8 +31,11 @@ class ChallengeServiceImplTest {
     @Mock
     private ChallengeAttemptRepository challengeAttemptRepository;
 
+//    @Mock
+//    private GamificationServiceClient gamificationServiceClient;
+
     @Mock
-    private GamificationServiceClient gamificationServiceClient;
+    private ChallengeEventPub challengeEventPub;
 
     private ChallengeService challengeService;
 
@@ -40,7 +43,7 @@ class ChallengeServiceImplTest {
     public void setUp() {
         challengeService = new ChallengeServiceImpl(userRepository,
                 challengeAttemptRepository,
-                gamificationServiceClient);
+                challengeEventPub);
     }
 
     @Test
@@ -57,7 +60,8 @@ class ChallengeServiceImplTest {
         then(resultAttempt.isCorrect()).isTrue();
         verify(userRepository).save(new User("Hariharan"));
         verify(challengeAttemptRepository).save(resultAttempt);
-        verify(gamificationServiceClient).sendAttempt(resultAttempt);
+//        verify(gamificationServiceClient).sendAttempt(resultAttempt);
+        verify(challengeEventPub).challengeSolved(resultAttempt);
     }
 
     @Test
@@ -77,7 +81,8 @@ class ChallengeServiceImplTest {
         then(resultAttempt.getUser()).isEqualTo(existingUser);
         verify(userRepository, never()).save(new User("Hariharan"));
         verify(challengeAttemptRepository).save(resultAttempt);
-        verify(gamificationServiceClient).sendAttempt(resultAttempt);
+//        verify(gamificationServiceClient).sendAttempt(resultAttempt);
+        verify(challengeEventPub).challengeSolved(resultAttempt);
     }
 
     @Test
@@ -92,7 +97,8 @@ class ChallengeServiceImplTest {
 
         // then
         then(resultAttempt.isCorrect()).isFalse();
-        verify(gamificationServiceClient).sendAttempt(resultAttempt);
+//        verify(gamificationServiceClient).sendAttempt(resultAttempt);
+        verify(challengeEventPub).challengeSolved(resultAttempt);
     }
 
     @Test

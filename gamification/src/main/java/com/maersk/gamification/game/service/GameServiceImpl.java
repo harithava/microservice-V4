@@ -1,6 +1,6 @@
 package com.maersk.gamification.game.service;
 
-import com.maersk.gamification.challenge.domain.ChallengeSolvedDTO;
+import com.maersk.gamification.challenge.domain.ChallengeSolvedEvent;
 import com.maersk.gamification.game.badgeprocessors.BadgeProcessor;
 import com.maersk.gamification.game.domain.BadgeCard;
 import com.maersk.gamification.game.domain.BadgeType;
@@ -29,7 +29,7 @@ class GameServiceImpl implements GameService {
     private final List<BadgeProcessor> badgeProcessors;
 
     @Override
-    public GameResult newAttemptForUser(final ChallengeSolvedDTO challenge) {
+    public GameResult newAttemptForUser(final ChallengeSolvedEvent challenge) {
         // We give points only if it's correct
         if (challenge.correct()) {
             ScoreCard scoreCard = new ScoreCard(challenge.userId(),
@@ -55,7 +55,7 @@ class GameServiceImpl implements GameService {
      * Checks the total score and the different score cards obtained
      * to give new badges in case their conditions are met.
      */
-    private List<BadgeCard> processForBadges( final ChallengeSolvedDTO solvedChallenge) {
+    private List<BadgeCard> processForBadges( final ChallengeSolvedEvent solvedChallenge) {
         Optional<Integer> optTotalScore = scoreRepository.getTotalScoreForUser(solvedChallenge.userId());
         if (optTotalScore.isEmpty()) return Collections.emptyList();
         int totalScore = optTotalScore.get();

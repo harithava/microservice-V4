@@ -1,6 +1,6 @@
 package com.maersk.gamification.game.service;
 
-import com.maersk.gamification.challenge.domain.ChallengeSolvedDTO;
+import com.maersk.gamification.challenge.domain.ChallengeSolvedEvent;
 import com.maersk.gamification.game.badgeprocessors.BadgeProcessor;
 import com.maersk.gamification.game.domain.BadgeCard;
 import com.maersk.gamification.game.domain.BadgeType;
@@ -44,7 +44,7 @@ public class GameServiceImplTest {
     public void processCorrectAttemptTest() {
         // given
         long userId = 1L, attemptId = 10L;
-        var attempt = new ChallengeSolvedDTO(attemptId, true, 20, 70,
+        var attempt = new ChallengeSolvedEvent(attemptId, true, 20, 70,
                 userId, "Hariharan");
         ScoreCard scoreCard = new ScoreCard(userId, attemptId);
         given(scoreRepository.getTotalScoreForUser(userId)).willReturn(Optional.of(10));
@@ -66,7 +66,7 @@ public class GameServiceImplTest {
     public void processWrongAttemptTest() {
         // When
         GameService.GameResult gameResult = gameService
-                .newAttemptForUser(new ChallengeSolvedDTO(10L, false,
+                .newAttemptForUser(new ChallengeSolvedEvent(10L, false,
                         10, 10, 1L, "Hariharan"));
 
         // Then - Shouldn't be score anything

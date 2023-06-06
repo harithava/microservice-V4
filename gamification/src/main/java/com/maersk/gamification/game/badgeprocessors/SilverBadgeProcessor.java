@@ -1,6 +1,6 @@
 package com.maersk.gamification.game.badgeprocessors;
 
-import com.maersk.gamification.challenge.domain.ChallengeSolvedDTO;
+import com.maersk.gamification.challenge.domain.ChallengeSolvedEvent;
 import com.maersk.gamification.game.domain.BadgeType;
 import com.maersk.gamification.game.domain.ScoreCard;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ class SilverBadgeProcessor implements BadgeProcessor{
     @Override
     public Optional<BadgeType> processForOptionalBadge(int currentScore,
                                                        List<ScoreCard> scoreCardList,
-                                                       ChallengeSolvedDTO solvedDTO) {
+                                                       ChallengeSolvedEvent solvedDTO) {
         return currentScore > 150 ? Optional.of(BadgeType.SILVER) : Optional.empty();
     }
 
